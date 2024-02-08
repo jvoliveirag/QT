@@ -1,19 +1,26 @@
 # QT & QML
-Dedicated to my Qt5 experiments.
+Dedicated to my Qt experiments.
 
-### Courses covered
+![GitHub repo size](https://img.shields.io/github/repo-size/jvoliveirag/QT)
+![GitHub language count](https://img.shields.io/github/languages/count/jvoliveirag/QT)
+![GitHub open issues](https://img.shields.io/github/issues/jvoliveirag/QT)
+
+ Courses covered
+---
   - Qt 5 QML For Beginners: The Fundamentals
   - Qt 5 QML Intermediate: Interfacing to C++
   - Qt 5 QML Advanced : Interfacing to C++
 
-### Examples & tests
+ Examples & tests
+---
   All the code examples from the course and their respective tests were made using VSCode with ``QML Syntax/Tools`` extension from <a href='https://www.bing.com/videos/riverview/relatedvideo?q=qt%20config%20in%20vscode&mid=6DC9A7FC9B5ED849A9F86DC9A7FC9B5ED849A9F8&ajaxhist=0'>Felgo</a>, which runs the Qt app on browser and mobile, as shown by the images below. (This example is from the section 11 - Models, Views and delegates, topic 75 - Decorations: Headers, Footers and Highlights)
 
   ![alt text](/images/qt-app-web.png) 
 
   <img src="./images/qt-app-mobile.jpeg">
 
-### Quick notes
+ Quick notes
+---
 
 - Anchors, grid, column (align items)
 - Layout (fit to the size - grid, colunm, etc)
@@ -42,8 +49,17 @@ Dedicated to my Qt5 experiments.
   - Components
   - Action
 
+- Storage (states)
+  - Settings (specify app identifiers - ``.cpp`` file)
 
 - Shortcuts(on QT Creator)
   - Ctrl + I: indent (align)
   - F1: Help (description)
   - Help Icon on the sidebar (docs - type the name of the feature)
+
+---
+
+#### Always check the official docs!
+
+<b><a href='https://doc.qt.io/qt-5'>Qt5</a></b> |
+<b><a href='https://doc.qt.io/qt-6'>Qt6</a></b>
