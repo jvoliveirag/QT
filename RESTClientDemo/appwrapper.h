@@ -5,6 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QQmlApplicationEngine>
 
 class AppWrapper : public QObject
 {
@@ -18,6 +19,8 @@ public:
 
     QStringList jokes() const;
 
+    bool initialize();
+
 signals:
 
 public slots:
@@ -27,10 +30,13 @@ private slots:
     void dataReadFinished();
 
 private:
+    void resetModel ();
+
     QNetworkAccessManager * mNetManager;
     QNetworkReply * mNetReply;
     QByteArray * mDataBuffer;
     QStringList mJokes;
+    QQmlApplicationEngine mEngine;
 };
 
 

@@ -1,8 +1,9 @@
 #include <QNetworkRequest>
-#include <QDebug>
+#include <QQmlContext>
 #include <QJsonDocument>
-#include <QJsonObject>
 #include <QJsonArray>
+#include <QJsonObject>
+#include <QDebug>
 #include "appwrapper.h"
 
 AppWrapper::AppWrapper(QObject *parent)
@@ -14,6 +15,9 @@ AppWrapper::AppWrapper(QObject *parent)
 
 void AppWrapper::fetchPosts()
 {
+    //Clean data before a new request
+    mDataBuffer->clear();
+
     //const QUrl API_ENDPOINT("http://api.icndb.com/jokes/random/"+QString::number(number));
     const QUrl API_ENDPOINT("https://api.chucknorris.io/jokes/random/");
 
@@ -27,12 +31,31 @@ void AppWrapper::fetchPosts()
 
 void AppWrapper::removeLast()
 {
-
+    if(!mJokes.isEmpty()){
+        mJokes.removeLast();
+        resetModel();
+    }
 }
 
 QStringList AppWrapper::jokes() const
 {
     return mJokes;
+}
+
+bool AppWrapper::initialize()
+{
+    mEngine.rootContext()->setContextProperty("Wrapper",this);
+
+    resetModel();
+
+    const QUrl url(u"qrc:/RESTClientDemo/Main.qml"_qs);
+
+    mEngine.load(QUrl(url));
+    if (mEngine.rootObjects().isEmpty()){
+        return false;
+    }else{
+        return true;
+    }
 }
 
 void AppWrapper::dataReadyRead()
@@ -46,14 +69,50 @@ void AppWrapper::dataReadFinished()
     if(mNetReply->error()){
         qDebug() << "An error has occured: " << mNetReply -> errorString();
     } else {
+
         //Turns data into a JSON document
         QJsonDocument doc = QJsonDocument::fromJson(*mDataBuffer);
 
-        //Gets the "value" array
-        QJsonObject data = doc.object();
+        // Check if parsing was successful
+        if (doc.isNull()) {
+            qDebug() << "Error: Failed to parse JSON data. The document is null.";
+            return; // Exit the function or handle the error appropriately
+        }
 
-        QString joke = data["value"].toString();
+        // Check if the JSON document is an object
+        if (!doc.isObject()) {
+            qDebug() << "Error: JSON data is not an object.";
+            return; // Exit the function or handle the error appropriately
+        }
 
-        qDebug() << joke;
+        // Gets the root object
+        QJsonObject rootObject = doc.object();
+
+        // Check if the root object contains "value" key
+        if (!rootObject.contains("value") || !rootObject["value"].isString()) {
+            qDebug() << "Error: JSON data format is unexpected.";
+            return; // Exit the function or handle the error appropriately
+        }
+
+        // Access the joke value
+        QString joke = rootObject["value"].toString();
+
+        // Append the joke to the list
+        mJokes.append(joke);
+
+        qDebug() << mJokes;
+
+        qDebug() << mJokes.size();
+
+        // EXPOSE THE C++ DATA TO QML
+        if(mJokes.size() > 0){
+            resetModel();
+        }
     }
+}
+
+// 'SYNC' DATA WITH QML - reset the conext property passing the new dataset 'mJokes' everytime it is called.
+void AppWrapper::resetModel()
+{
+    mEngine.rootContext()->setContextProperty("myModel", QVariant::fromValue(mJokes)); //in Main.qml the 'model' in 'ListView' has to be 'myModel'
 }
