@@ -15,7 +15,7 @@ Dedicated to my Qt experiments.
 ---
   All the code examples from the course and their respective tests were made using VSCode with ``QML Syntax/Tools`` extension from <a href='https://www.bing.com/videos/riverview/relatedvideo?q=qt%20config%20in%20vscode&mid=6DC9A7FC9B5ED849A9F86DC9A7FC9B5ED849A9F8&ajaxhist=0'>Felgo</a>, which runs the Qt app on browser and mobile, as shown by the images below. (This example is from the section 11 - Models, Views and delegates, topic 75 - Decorations: Headers, Footers and Highlights)
 
-  ![alt text](/images/qt-app-web.png) 
+  <img src="./images/qt-app-web.png">
 
   <img src="./images/qt-app-mobile.jpeg">
 
@@ -52,7 +52,27 @@ Dedicated to my Qt experiments.
 - Storage (states)
   - Settings (specify app identifiers - ``.cpp`` file)
 
-- Shortcuts(on QT Creator)
+- C++ with Qt
+  - Context properties: expose C++ data to QML
+  - Connections (a qml 'slot' can get a 'signal' from c++)
+    - target: `<classExposedInMain.cpp>`
+  - Q_PROPERTY
+  - emit (when something changes it EMITS the 'signal' to the 'slot' change as well)
+
+- QDebug ('console.log' for Qt)
+
+- Expose data from C++ to QML
+  - Context Property
+  - Context Object
+  - `qmlRegisterType<>()`
+
+- Singletons (pattern)
+  - Ensure that only one instance of the class exists
+  - Recommended when data is changing on yhe C++ side and you want to be notified of the changes on the QtQuick side
+  - In C++: `singletonProvider()`
+  - In QML: `pragma Singleton`
+
+- Shortcuts (on QT Creator)
   - Ctrl + I: indent (align)
   - F1: Help (description)
   - Help Icon on the sidebar (docs - type the name of the feature)
